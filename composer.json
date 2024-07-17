@@ -14,16 +14,6 @@
         "laravel/sanctum": "^3.2",
         "laravel/socialite": "*",
         "laravel/tinker": "^2.8",
-        "leo/bills": "*",
-        "leo/brands": "*",
-        "leo/carts": "*",
-        "leo/categories": "*",
-        "leo/customers": "*",
-        "leo/permissions": "*",
-        "leo/products": "*",
-        "leo/roles": "*",
-        "leo/slides": "*",
-        "leo/users": "*",
         "maatwebsite/excel": "*",
         "mnsami/composer-custom-directory-installer": "*",
         "pusher/pusher-php-server": "^7.2",
@@ -86,33 +76,7 @@
             "merge-scripts": true
         },
         "installer-paths": {
-            "./plugins/roles": [
-                "leo/roles"
-            ],
-            "./plugins/categories": [
-                "leo/categories"
-            ],
-            "./plugins/permissions": [
-                "leo/permissions"
-            ],
-            "./plugins/users": [
-                "leo/users"
-            ],
-            "./plugins/brands": [
-                "leo/brands"
-            ],
-            "./plugins/slides": [
-                "leo/slides"
-            ],
-            "./plugins/customers": [
-                "leo/customers"
-            ],
-            "./plugins/carts": [
-                "leo/carts"
-            ],
-            "./plugins/bills": [
-                "leo/bills"
-            ]
+
         }
     },
    "config": {
@@ -130,45 +94,6 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "repositories": [
-        {
-            "type": "path",
-            "url": "./packages/roles/"
-        },
-        {
-            "type": "path",
-            "url": "./packages/categories/"
-        },
-        {
-            "type": "path",
-            "url": "./packages/permissions/"
-        },
-        {
-            "type": "path",
-            "url": "./packages/users/"
-        },
-        {
-            "type": "path",
-            "url": "./packages/brands/"
-        },
-        {
-            "type": "path",
-            "url": "./packages/products/"
-        },
-        {
-            "type": "path",
-            "url": "./packages/slides/"
-        },
-        {
-            "type": "path",
-            "url": "./packages/customers/"
-        },
-        {
-            "type": "path",
-            "url": "./packages/carts/"
-        },
-        {
-            "type": "path",
-            "url": "./packages/bills/"
-        }
+
     ]
 }

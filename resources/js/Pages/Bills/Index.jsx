@@ -8,7 +8,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import "notyf/notyf.min.css";
 import Swal from "sweetalert2";
 import axios from "axios";
-
+import echo from "./echo";
 function Index({ bills }) {
     const [data, setData] = useState(bills);
 
@@ -24,7 +24,14 @@ function Index({ bills }) {
                 return '';
         }
     };
-
+    setInterval(() => {
+        echo.channel("bills").listen("PushBills", (e) => {
+            setData(e.bills);
+          });
+          return () => {
+            echo.leaveChannel("bills");
+          };
+    }, 1000);
     const columns = [
         { field: 'id', headerName: 'ID', width: 70 },
         { field: 'name', headerName: 'Name', width: 200 },
@@ -42,7 +49,7 @@ function Index({ bills }) {
             headerName: "Chi tiết",
             width: 70,
             renderCell: (params) => (
-                <a href={'/bills/'+params.id} className="btn btn-sm btn-warning">Edit</a>
+                <a href={'/admin/bills/'+params.id} className="btn btn-sm btn-warning">Edit</a>
             ),
         },
       ];

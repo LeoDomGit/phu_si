@@ -62,7 +62,7 @@ export default function SignInSide() {
                 message: "Password is required",
             });
         } else {
-            axios.post('/users/checkLogin', {
+            axios.post('/checkLogin', {
                 email: email,
                 password: password,
             }).then((res) => {
@@ -72,30 +72,20 @@ export default function SignInSide() {
                         message: "Đăng nhập thành công",
                     });
                     setTimeout(() => {
-                        window.location.replace('/users');
+                        window.location.replace('/admin/products');
                     }, 2000);
                 } else if (res.data.check === false) {
-                    if (res.data.errors.password) {
+                    if (res.data.msg) {
                         notyf.open({
                             type: "error",
-                            message: res.data.errors.password,
-                        });
-                    } else if (res.data.errors.name) {
-                        notyf.open({
-                            type: "error",
-                            message: res.data.errors.name,
-                        });
-                    } else if (res.data.errors.email) {
-                        notyf.open({
-                            type: "error",
-                            message: res.data.errors.email,
+                            message: res.data.msg,
                         });
                     }
                 }
             }).catch((error) => {
                 notyf.open({
                     type: "error",
-                    message: "Tài khoản không hợp lệ",
+                    message: "An error occurred. Please try again.",
                 });
             });
         }

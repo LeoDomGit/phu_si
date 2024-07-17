@@ -65,7 +65,7 @@ function Detail({ total, bill, billList }) {
                 message: "Vui lòng cập nhật lý do thất bại",
             });
         }else {
-            axios.put('/bills/'+bill.id,{
+            axios.put('/admin/bills/'+bill.id,{
                 status:status,
                 note:datanote
             }).then((res)=>{
@@ -138,7 +138,7 @@ function Detail({ total, bill, billList }) {
                                             <tbody>
                                                 {billList.map((item, index) => (
                                                     <tr key={index}>
-                                                        <td>{index+1}</td>
+                                                        <td><img style={{ width: '250px' }} src={item.product.image.image} alt="" /></td>
                                                         <td>{item.product.name}</td>
                                                         <td>{Intl.NumberFormat("en-US").format(item.product.price)}</td>
                                                         <td>{item.quantity}</td>
