@@ -14,9 +14,14 @@ use App\Http\Controllers\Carts\CartsController;
 use App\Http\Controllers\Contacts\ContactsController;
 use App\Http\Controllers\Comments\CommentController;
 use App\Http\Controllers\Reviews\ReviewController;
+use App\Http\Controllers\Brands\BrandController;
 
 Route::get('collections',[ProductCollection::class,'api_collections']);
 Route::get('collections/{id}',[ProductCollection::class,'api_children_collections']);
+
+//======================================================================
+Route::get('brands',[BrandController::class,'api_brands']);
+Route::get('brands/{id}',[BrandController::class,'api_children_brands']);
 
 //======================================================================
 Route::get('products',[ProductsController::class,'api_products']);

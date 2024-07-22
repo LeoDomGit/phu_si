@@ -91,7 +91,13 @@ class BrandController extends Controller
         $brands=$this->getAll();
         return response()->json(['check'=>true,'data'=>$brands]);
     }
-
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function api_brands(){
+        $result = ProductCollectionModel::active()->orderBy('position','asc')->get();
+        return response()->json($result);
+    }
     /**
      * Remove the specified resource from storage.
      */
