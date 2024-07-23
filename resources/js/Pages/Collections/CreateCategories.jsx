@@ -77,7 +77,7 @@ function CreateCategories({collections,categories}) {
                         <div class="shadow p-3 mb-5 bg-body rounded card text-start">
                             <div class="card-body">
                                 <div className="row">
-                                    <a href="/admin/collections">Quay lại trang danh mục</a>
+                                    <a href="/admin/categories">Quay lại trang danh mục</a>
 
                                     <div className="col-md-4 mt-2">
                                         <div className="input-group mb-3">

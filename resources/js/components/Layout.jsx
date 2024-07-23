@@ -43,11 +43,20 @@ function Layout({ children }) {
 						<SubMenu label="Quản lý sản phẩm" icon={<BrandingWatermarkIcon />}>
 							<SubMenu label="Danh mục" icon={<ArrowForwardIosIcon />}>
 								<MenuItem icon={<ArrowForwardIosIcon />} component="a" href="/admin/collections">
-									Danh mục
+									Nhóm Danh mục
 								</MenuItem>
-								
+
 								<MenuItem icon={<ArrowForwardIosIcon />} component="a" href="/admin/collections/create">
-									Thêm danh mục
+									Thêm nhóm danh mục
+								</MenuItem>
+							</SubMenu>
+                            <SubMenu label="Loại sản phẩm" icon={<ArrowForwardIosIcon />}>
+								<MenuItem icon={<ArrowForwardIosIcon />} component="a" href="/admin/categories">
+									Loại sản phẩm
+								</MenuItem>
+
+								<MenuItem icon={<ArrowForwardIosIcon />} component="a" href="/admin/categories/create">
+									Thêm loại sản phẩm
 								</MenuItem>
 							</SubMenu>
 							<MenuItem icon={<BrandingWatermarkIcon />} component="a" href="/admin/brands">
