@@ -21,7 +21,7 @@ class ProductCollection extends Model
         return $query->where('status',1)->orderBy('position',$param);
     }
     public function categories (){
-        return $this->hasMany(Categories::class);
+        return $this->hasMany(Categories::class,'id_collection');
     }
 
     public function products()
