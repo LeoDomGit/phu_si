@@ -20,6 +20,10 @@ class ProductCollection extends Model
     public function scopeSort(Builder $query,$param){
         return $query->where('status',1)->orderBy('position',$param);
     }
+
+    public function scopeHighlight(Builder $query){
+        return $query->where('status',1)->where('highlighted',1)->orderBy('position','asc');
+    }
     public function categories (){
         return $this->hasMany(Categories::class,'id_collection');
     }
