@@ -20,7 +20,10 @@ class ProductCollection extends Model
     public function scopeSort(Builder $query,$param){
         return $query->where('status',1)->orderBy('position',$param);
     }
-    
+    public function categories (){
+        return $this->hasMany(Categories::class);
+    }
+
     public function products()
     {
         return $this->belongsToMany(Products::class, 'links', 'id_parent', 'id_link');

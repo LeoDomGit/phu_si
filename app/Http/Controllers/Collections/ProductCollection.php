@@ -144,11 +144,11 @@ class ProductCollection extends Controller
      * Remove the specified resource from storage.
      */
      public function api_collections(){
-        $result = ProductCollectionModel::active()->where('id_parent',null)->orderBy('position','asc')->get();
+        $result = ProductCollectionModel::with('categories')->active()->where('id_parent',null)->orderBy('position','asc')->get();
         return response()->json($result);
      }
      public function api_children_collections($id){
-        $result = ProductCollectionModel::active()->where('id_parent',$id)->orderBy('position','asc')->get();
+        $result = ProductCollectionModel::with('categories')->active()->where('id_parent',$id)->orderBy('position','asc')->get();
         return response()->json($result);
      }
 }
