@@ -329,6 +329,7 @@ class ProductsController extends Controller
                   ->select('products.*')
                   ->distinct('products.id');
         }])
+        ->orderBy('collections.position','asc')
         ->get();
         return response()->json($collections);
      }
