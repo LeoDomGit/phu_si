@@ -8,6 +8,7 @@ use App\Models\Reviews\Reviews;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Collections\ProductCollection;
+use App\Models\Categories\Categories;
 class Products extends Model
 {
     use HasFactory;
@@ -21,7 +22,10 @@ class Products extends Model
     {
         return $this->belongsToMany(ProductCollection::class, 'links', 'id_link', 'id_parent');
     }
-
+    public function categories()
+    {
+        return $this->belongsToMany(Categories::class, 'links', 'id_link', 'id_parent');
+    }
     public function comments(){
         return $this->hasMany(Comments::class);
     }
@@ -32,5 +36,10 @@ class Products extends Model
 
     public function reviews(){
         return $this->hasMany(Reviews::class);
+    }
+
+    public function gallery()
+    {
+        return $this->hasMany(Gallery::class, 'id_parent');
     }
 }

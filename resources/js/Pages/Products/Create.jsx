@@ -135,6 +135,7 @@ function Create({ allCollecions, brands, collections,categories }) {
         formData.append('price',price);
         formData.append('compare_price',compare_price);
         formData.append('attributes',thuoc_tinh);
+        formData.append('categories',idCategories);
         formData.append('discount',discount);
         formData.append('description',CKEDITOR.instances['editor1'].getData());
         formData.append('content',CKEDITOR.instances['editor'].getData());
@@ -596,7 +597,7 @@ function Create({ allCollecions, brands, collections,categories }) {
                                                         </FormControl>
                                                     </div>
                                                 </div>
-                                                <div className="col-md">
+                                                <div className="col-md-4">
                                                 <label htmlFor="">Danh mục sản
                                                 phẩm xuất hiện</label>
                                                 <div className="input-group mb-3">
@@ -638,6 +639,50 @@ function Create({ allCollecions, brands, collections,categories }) {
                                                                         >
                                                                             {
                                                                                 item.collection
+                                                                            }
+                                                                        </MenuItem>
+                                                                    )
+                                                                )}
+                                                            </Select>
+                                                        </FormControl>
+                                                    </div>
+                                                </div>
+                                                <div className="col-md-4">
+                                                    <div className="input-group mb-3">
+                                                    <label htmlFor="">Loại sản phẩm</label>
+
+                                                        <FormControl
+                                                            sx={{
+                                                                m: 1,
+                                                                width: 300,
+                                                            }}
+                                                        >
+                                                            <Select
+                                                                labelId="demo-multiple-name-label"
+                                                                id="demo-multiple-name"
+                                                                value={
+                                                                    idCategories
+                                                                }
+                                                                onChange={(e)=>setidCategories(e.target.value)}
+                                                                input={
+                                                                    <OutlinedInput label="Name" />
+                                                                }
+                                                                MenuProps={
+                                                                    MenuProps
+                                                                }
+                                                            >
+                                                                {categories.map(
+                                                                    (item) => (
+                                                                        <MenuItem
+                                                                            key={
+                                                                                item.id
+                                                                            }
+                                                                            value={
+                                                                                item.id
+                                                                            }
+                                                                        >
+                                                                            {
+                                                                                item.name
                                                                             }
                                                                         </MenuItem>
                                                                     )

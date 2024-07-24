@@ -10,10 +10,10 @@ import Select from "@mui/material/Select";
 import "notyf/notyf.min.css";
 import axios from "axios";
 import { Notyf } from "notyf";
-function Edit({ idProducts,allCollecions, brands,dataattributes, datacontent,product,dataidCollections,datadescription,gallery, id,products }) {
+function Edit({ idProducts,allCollecions, brands,dataIdCategories,datacategories, datacontent,product,dataidCollections,datadescription,gallery, id,products }) {
     const theme = useTheme();
     const [idBrand, setIdBrand] = useState(product.id_brand);
-    const [idCategories, setidCategories] = useState(0);
+    const [idCategories, setidCategories] = useState(dataIdCategories);
     const [sku, setSku] = useState(product.sku);
     const [name, setName] = useState(product.name);
     const [price, setPrice] = useState(product.price);
@@ -21,7 +21,7 @@ function Edit({ idProducts,allCollecions, brands,dataattributes, datacontent,pro
     const [instock, setInstock] = useState(product.in_stock);
     const [discount, setDiscount] = useState(product.discount);
     const [content, setContent] = useState("");
-    const [attributes, setAttributes] = useState(dataattributes);
+    const [categories, setCategories] = useState(datacategories);
     const [description, setDescription] = useState("");
     const [modalShow, setModalShow] = React.useState(false);
     const [links,setLinks]= useState(idProducts);
@@ -59,34 +59,6 @@ function Edit({ idProducts,allCollecions, brands,dataattributes, datacontent,pro
                 width: 250,
             },
         },
-    };
-    const names = [
-        "Oliver Hansen",
-        "Van Henry",
-        "April Tucker",
-        "Ralph Hubbard",
-        "Omar Alexander",
-        "Carlos Abbott",
-        "Miriam Wagner",
-        "Bradley Wilkerson",
-        "Virginia Andrews",
-        "Kelly Snyder",
-    ];
-
-    const handleAttributeChange = (index, event) => {
-        const { name, value } = event.target;
-        const newAttributes = [...attributes];
-        newAttributes[index][name] = value;
-        setAttributes(newAttributes);
-    };
-
-    const addAttribute = () => {
-        setAttributes([...attributes, { name: "", value: "" }]);
-    };
-
-    const removeAttribute = (index) => {
-        const newAttributes = attributes.filter((_, i) => i !== index);
-        setAttributes(newAttributes);
     };
     const notyf = new Notyf({
         duration: 1000,
@@ -159,12 +131,10 @@ function Edit({ idProducts,allCollecions, brands,dataattributes, datacontent,pro
     };
     const submitEdit=()=>{
         var formData= new FormData();
-        var thuoc_tinh= JSON.stringify(attributes)
         formData.append('name',name);
         formData.append('sku',sku);
         formData.append('price',price);
         formData.append('compare_price',compare_price);
-        formData.append('attributes',thuoc_tinh);
         formData.append('discount',discount);
         formData.append('description',CKEDITOR.instances['editor1'].getData());
         formData.append('content',CKEDITOR.instances['editor'].getData());
@@ -173,6 +143,7 @@ function Edit({ idProducts,allCollecions, brands,dataattributes, datacontent,pro
         idCollections.forEach(el => {
             formData.append('collections[]',el);
         });
+        formData.append('categories',idCategories);
         links.forEach(el => {
             formData.append('links[]',el);
         });
@@ -204,7 +175,7 @@ function Edit({ idProducts,allCollecions, brands,dataattributes, datacontent,pro
                         <div className="col-md-8">
                             <div class="card">
                                 <div class="card-header">
-                                    <h4>Thêm sản phẩm</h4>
+                                    <h4>Sửa sản phẩm</h4>
                                     <nav>
                                         <div
                                             className="nav nav-tabs"
@@ -447,75 +418,6 @@ function Edit({ idProducts,allCollecions, brands,dataattributes, datacontent,pro
                                         </div>
                                         <div
                                             className="tab-pane fade"
-                                            id="nav-attribute"
-                                            role="tabpanel"
-                                            aria-labelledby="nav-attribute-tab"
-                                        >
-                                            {attributes &&attributes.length>0 &&attributes.map((attr, index) => (
-                                                <div
-                                                    className="row mb-3"
-                                                    key={index}
-                                                >
-                                                    <div className="col-md-5">
-                                                        <input
-                                                            type="text"
-                                                            placeholder="Thuộc tính"
-                                                            name="name"
-                                                            value={attr.name}
-                                                            onChange={(e) =>
-                                                                handleAttributeChange(
-                                                                    index,
-                                                                    e
-                                                                )
-                                                            }
-                                                            className="form-control"
-                                                        />
-                                                    </div>
-                                                    <div className="col-md-5">
-                                                        <input
-                                                            type="text"
-                                                            placeholder="Giá trị"
-                                                            name="value"
-                                                            value={attr.value}
-                                                            onChange={(e) =>
-                                                                handleAttributeChange(
-                                                                    index,
-                                                                    e
-                                                                )
-                                                            }
-                                                            className="form-control"
-                                                        />
-                                                    </div>
-                                                    <div className="col-md-2">
-                                                        <button
-                                                            type="button"
-                                                            className="btn btn-danger"
-                                                            onClick={() =>
-                                                                removeAttribute(
-                                                                    index
-                                                                )
-                                                            }
-                                                        >
-                                                            Xóa
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            ))}
-                                            <div className="row">
-                                                <div className="col-md-2">
-                                                    <button
-                                                        className="btn btn-sm btn-primary"
-                                                        onClick={(e) =>
-                                                            addAttribute()
-                                                        }
-                                                    >
-                                                        Thêm
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div
-                                            className="tab-pane fade"
                                             id="nav-profile"
                                             role="tabpanel"
                                             aria-labelledby="nav-profile-tab"
@@ -667,6 +569,50 @@ function Edit({ idProducts,allCollecions, brands,dataattributes, datacontent,pro
                                                                         >
                                                                             {
                                                                                 item.collection
+                                                                            }
+                                                                        </MenuItem>
+                                                                    )
+                                                                )}
+                                                            </Select>
+                                                        </FormControl>
+                                                    </div>
+                                                </div>
+                                                <div className="col-md-4">
+                                                    <div className="input-group mb-3">
+                                                    <label htmlFor="">Loại sản phẩm</label>
+
+                                                        <FormControl
+                                                            sx={{
+                                                                m: 1,
+                                                                width: 300,
+                                                            }}
+                                                        >
+                                                            <Select
+                                                                labelId="demo-multiple-name-label"
+                                                                id="demo-multiple-name"
+                                                                value={
+                                                                    idCategories
+                                                                }
+                                                                onChange={(e)=>setidCategories(e.target.value)}
+                                                                input={
+                                                                    <OutlinedInput label="Name" />
+                                                                }
+                                                                MenuProps={
+                                                                    MenuProps
+                                                                }
+                                                            >
+                                                                {categories.map(
+                                                                    (item) => (
+                                                                        <MenuItem
+                                                                            key={
+                                                                                item.id
+                                                                            }
+                                                                            value={
+                                                                                item.id
+                                                                            }
+                                                                        >
+                                                                            {
+                                                                                item.name
                                                                             }
                                                                         </MenuItem>
                                                                     )

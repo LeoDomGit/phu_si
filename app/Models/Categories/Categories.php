@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Collections\ProductCollection;
 use Illuminate\Database\Eloquent\Builder;
-
+use App\Models\Products\Products;
 class Categories extends Model
 {
     use HasFactory;
@@ -30,6 +30,13 @@ class Categories extends Model
     public function parent()
     {
         return $this->belongsTo(Categories::class, 'id_parent');
+    }
+
+    public function products()
+    {
+        return $this->belongsToMany(Products::class, 'links', 'id_parent', 'id_link')
+                    ->wherePivot('model2', 'CATEGORIES')
+                    ->withPivot('model2');
     }
     public function children()
     {

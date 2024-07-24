@@ -176,6 +176,10 @@ class ProductsController extends Controller
             ->where('model2', 'COLLECTIONS')
             ->where('id_link', $id)
             ->pluck('id_parent');
+        $idCategories = Links::where('model1', 'PRODUCTS')
+            ->where('model2', 'CATEGORIES')
+            ->where('id_link', $id)
+            ->value('id_parent');
         $id_products = Links::where('model1', 'PRODUCTS')
         ->where('model2', 'PRODUCTS')
         ->where('id_link', $id)
@@ -188,7 +192,7 @@ class ProductsController extends Controller
         }
         $products=Products::select('name','id')->get();
         $allCollecions=ProductCollection::active()->select('id','collection')->get();
-        return Inertia::render('Products/Edit',['idProducts'=>$id_products,'products'=>$products,'dataattributes'=>$dataattributes,'dataidCollections'=>$idCollections,'id'=>$id,'product'=>$product,'gallery'=>$gallery,'categories'=>$categories,'brands'=>$brands,'collections'=>$collections,'allCollecions'=>$allCollecions,'datacontent'=>$product->content,'datadescription'=>$product->description]);
+        return Inertia::render('Products/Edit',['idProducts'=>$id_products,'products'=>$products,'datacategories'=>$categories,'dataidCollections'=>$idCollections,'id'=>$id,'product'=>$product,'gallery'=>$gallery,'categories'=>$categories,'brands'=>$brands,'collections'=>$collections,'allCollecions'=>$allCollecions,'datacontent'=>$product->content,'datadescription'=>$product->description,'dataIdCategories'=>$idCategories]);
     }
 
     public function exportExample(Products $products)
@@ -214,6 +218,7 @@ class ProductsController extends Controller
         }
         $data=$request->all();
         unset($data['collections']);
+        unset($data['categories']);
         unset($data['links']);
         if($request->has('name')){
         $data['slug']=Str::slug($request->name);
@@ -226,6 +231,11 @@ class ProductsController extends Controller
             foreach ($collections as $value) {
                 Links::create(['id_link'=>$id,'id_parent'=>$value,'model1'=>'PRODUCTS','model2'=>'COLLECTIONS','created_at'=>now()]);
             }
+        }
+        if($request->has('categories')){
+            $categories = $request->categories;
+            Links::where('id_link',$id)->where('model2','CATEGORIES')->delete();
+            Links::create(['id_link'=>$id,'id_parent'=>$categories,'model1'=>'PRODUCTS','model2'=>'CATEGORIES','created_at'=>now()]);
         }
         if($request->has('links')){
             Links::where('id_link',$id)->where('model2','PRODUCTS')->delete();
@@ -293,7 +303,25 @@ class ProductsController extends Controller
                   ->distinct('products.id');
         }])
         ->get();
-        return response()->json($collections);
+        $category = Categories::where('slug', $id)
+        ->with(['products' => function($query) {
+            $query->where('products.status', 1)
+                  ->with('gallery')
+                  ->select('products.*')
+                  ->distinct('products.id');
+        }])
+        ->first();
+
+        if ($category) {
+            $products = $category->products;
+        } else {
+            $products = collect();
+        }
+        if(count($collections)!=0){
+            return response()->json($collections);
+        }else{
+            return response()->json($category);
+        }
     }
      /**
      * Remove the specified resource from storage.
