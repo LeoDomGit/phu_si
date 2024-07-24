@@ -25,6 +25,7 @@ Route::get('brands/{id}',[BrandController::class,'api_children_brands']);
 
 //======================================================================
 Route::get('products',[ProductsController::class,'api_products']);
+Route::get('products-name',[ProductsController::class,'api_get_productName']);
 Route::get('categories',[ProductsController::class,'api_all_products']);
 Route::get('products-categories/{id}',[ProductsController::class,'api_categories_products']);
 Route::get('products/{id}',[ProductsController::class,'api_single']);

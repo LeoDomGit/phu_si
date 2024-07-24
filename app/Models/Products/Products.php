@@ -37,9 +37,7 @@ class Products extends Model
     public function reviews(){
         return $this->hasMany(Reviews::class);
     }
-
-    public function gallery()
-    {
-        return $this->hasMany(Gallery::class, 'id_parent');
+    public function scopeActive(){
+        return $this->where('status',1);
     }
 }

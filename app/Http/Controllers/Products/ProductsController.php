@@ -289,6 +289,11 @@ class ProductsController extends Controller
         }
 
     }
+    // ===========================================
+    public function api_get_productName(Request $request){
+        $products=Products::active()->select('slug','name')->get();
+        return response()->json($products);
+    }
          /**
      * Remove the specified resource from storage.
      */
@@ -306,7 +311,7 @@ class ProductsController extends Controller
         $category = Categories::where('slug', $id)
         ->with(['products' => function($query) {
             $query->where('products.status', 1)
-                  ->with('gallery')
+                  ->with('image')
                   ->select('products.*')
                   ->distinct('products.id');
         }])
@@ -320,7 +325,7 @@ class ProductsController extends Controller
         if(count($collections)!=0){
             return response()->json($collections);
         }else{
-            return response()->json($category);
+            return response()->json([$category]);
         }
     }
      /**
