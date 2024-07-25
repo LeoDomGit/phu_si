@@ -60,6 +60,7 @@ Route::prefix('carts')->middleware('auth:sanctum')->group(function () {
 
 Route::prefix('customers')->group(function () {
     Route::get('/',[CustomersController::class,'show'])->middleware('auth:sanctum');
+    Route::put('/{id}',[CustomersController::class,'update'])->middleware('auth:sanctum');
     Route::post('/auth/register',[CustomersController::class,'store']);
     Route::post('/auth/login',[CustomersController::class,'CheckLogin']);
     Route::post('/comment',[CommentController::class,'store'])->middleware('auth:sanctum');

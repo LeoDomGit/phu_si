@@ -143,14 +143,21 @@ class CustomersController extends Controller
         if ($validator->fails()) {
             return response()->json(['check' => false, 'msg' => $validator->errors()->first()]);
         }
-        $customer= Customers::where('id',$id)->first();
+        $customer= Customers::where('status',1)->where('id',$id)->first();
         if(!$customer){
             return response()->json(['check'=>false,'msg'=>'Tài khoản không tồn tại']);
         }
         $data= $request->all();
+        if($request->has('email')){
+            $data['email_verified_at']=null;
+        }
+        if($request->has('password') && $data['password']){
+            $data['password']=Hash::make($data['password']);
+        }
         $data['updated_at']= now();
         Customers::where('id',$id)->update($data);
-        return response()->json(['check'=>true]);
+        $customers=Customers::where('id',Auth::id())->first();
+        return response()->json(['check'=>true,'data'=>$customers]);
     }
     /**
      * Update the specified resource in storage.

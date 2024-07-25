@@ -109,18 +109,20 @@ class BillsController extends Controller
 
         $data=[];
         $customer = Customers::where('email',$request->email)->first();
-        $password= random_int(1000,9999);
-        $newCus['name']=$request->name;
-        $newCus['email']=$request->email;
-        $newCus['password']=Hash::make($password);
-        $newCus['created_at']= now();
-        $id_cus=Customers::insertGetId($newCus);
-        $dataMail = [
-            'name'=>$request->name,
-            'email' => $request->email,
-            'password' => $password,
-        ];
-        Mail::to($customer->email)->send(new createUser($dataMail));
+        if(!$customer){
+            $password= random_int(1000,9999);
+            $newCus['name']=$request->name;
+            $newCus['email']=$request->email;
+            $newCus['password']=Hash::make($password);
+            $newCus['created_at']= now();
+            $id_cus=Customers::insertGetId($newCus);
+            $dataMail = [
+                'name'=>$request->name,
+                'email' => $request->email,
+                'password' => $password,
+            ];
+            Mail::to($customer->email)->send(new createUser($dataMail));
+        }
         $data['name']=$request->name;
         $data['email']=$request->email;
         $data['phone']=$request->phone;
